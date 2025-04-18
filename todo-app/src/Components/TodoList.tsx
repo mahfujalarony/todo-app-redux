@@ -5,15 +5,25 @@ import { useEffect } from "react";
 import { fetchTodos } from "../redux/todoSlice";
 import { removeTodo } from "../redux/todoSlice";
 
+
 const TodoList = () => {
-    const todos = useSelector((state: RootState) => state.todo.todos);
-    console.log("todos", todos);
+    const { todos, loading } = useSelector((state: RootState) => state.todo);
     const dispatch = useDispatch<AppDispatch>();
 
   
     useEffect(() => {
       dispatch(fetchTodos()); 
   }, [dispatch]);
+
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+  
 
   return (
     <div className="flex flex-col px-8 gap-3 justify-center mt-5 mb-5">
@@ -44,6 +54,7 @@ const TodoList = () => {
           >
             Delete
           </button>
+          
         </div>
       ))}
     </div>

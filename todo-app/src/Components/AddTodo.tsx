@@ -25,7 +25,7 @@ const AddTodo = () => {
 
 
   return (
-    <div className='flex  items-center  justify-around mt-5 mb-5'>
+    <div className='flex flex-col items-center  justify-around mt-5 mb-5'>
       <input
        type="text" 
        value={text} 
@@ -34,7 +34,9 @@ const AddTodo = () => {
         
       className='w-80 h-10 bg-blue-50 border-2 border-gray-300 rounded-md p-2 mb-2 focus:outline-none focus:border-blue-500'
       />
+
       <button onClick={handleAdd}>Add</button>
+     
     </div>
   )
 }

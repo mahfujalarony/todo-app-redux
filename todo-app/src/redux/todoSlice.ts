@@ -116,6 +116,9 @@ const todoSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(fetchTodos.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(fetchTodos.fulfilled, (state, action: PayloadAction<Todo[]>) => {
                 state.loading = false;
                 state.todos = action.payload;
