@@ -13,6 +13,8 @@ interface TodoState {
     error: string | null;
 };
 
+const API_URI='https://todo-app-redux-cs6w.onrender.com';
+
 const initialState: TodoState = {
     todos: [],
     loading: false,
@@ -23,7 +25,7 @@ export const fetchTodos = createAsyncThunk(
     'todos/fetchTodos',
     async (_, { rejectWithValue }): Promise<Todo[]> => {
         try {
-            const response = await fetch('http://localhost:3001/data');
+            const response = await fetch(`${API_URI}/data`);
             const data = await response.json();
             return data.data;
         } catch (error) {
@@ -40,7 +42,7 @@ export const asynsThink = createAsyncThunk(
     'todos/asynsThink',
     async (text: string, { rejectWithValue }): Promise<Todo> => {
         try {
-            const response = await fetch('http://localhost:3001/store', {
+            const response = await fetch(`${API_URI}/store`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text, completed: false }),
@@ -70,7 +72,7 @@ export const removeTodo = createAsyncThunk(
     'todos/deleteTodo',
     async (id: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3001/delete/${id}`, {
+            const response = await fetch(`${API_URI}/delete/${id}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
@@ -90,7 +92,7 @@ export const toggle = createAsyncThunk(
     'todos/toggleTodo',
     async (id: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3001/toggle/${id}`, {
+            const response = await fetch(`${API_URI}/toggle/${id}`, {
                 method: 'PUT',
             });
 
@@ -129,7 +131,7 @@ const todoSlice = createSlice({
                 state.todos = state.todos.filter((todo) => todo.id !== action.payload);
             })
             .addCase(toggle.fulfilled, (state, action: PayloadAction<string | undefined>) => {
-                const todo = state.todos.find((t) => t.id == action.payload );
+                const todo = state.todos.find((t) => t.id === action.payload );
                 if(todo) {
                     todo.completed = !todo.completed;
                 }
@@ -138,7 +140,7 @@ const todoSlice = createSlice({
     
 });
 
-//  export const { toggleTodo  } = todoSlice.actions;
+
 export default todoSlice.reducer;
 
 
@@ -146,8 +148,6 @@ export default todoSlice.reducer;
 
 
 
-
-// import { createSlice, createAsyncThunk , PayloadAction } from "@reduxjs/toolkit";
 
 // interface Todo {
 //     id: string;
